@@ -280,7 +280,7 @@ $config_directories = [];
  *   $settings['hash_salt'] = file_get_contents('/home/example/salt.txt');
  * @endcode
  */
-$settings['hash_salt'] = '';
+$settings['hash_salt'] = 'uiiwaLqAjO0DvisAbaSmjAmb03cJFdSWKreVCKmGJ9fEMVyh3hKDMWmqj75_Yxs2AVRBEcaRBw';
 
 /**
  * Deployment identifier.
@@ -534,7 +534,7 @@ if ($settings['hash_salt']) {
  * See https://www.drupal.org/documentation/modules/file for more information
  * about securing private files.
  */
-# $settings['file_private_path'] = '';
+$settings['file_private_path'] = 'sites/default/files/private';
 
 /**
  * Session write interval:
@@ -728,6 +728,12 @@ $settings['container_yamls'][] = $app_root . '/' . $site_path . '/services.yml';
  * will allow the site to run off of all variants of example.com and
  * example.org, with all subdomains included.
  */
+$settings['trusted_host_patterns'] = array(
+  '^example\.com$',
+  '^www\.example\.com$',
+  '^localhost$',
+  '^127\.0\.0\.1$',
+);
 
 /**
  * The default list of directories that will be ignored by Drupal's file API.
@@ -769,3 +775,13 @@ $settings['entity_update_batch_size'] = 50;
 #   include $app_root . '/' . $site_path . '/settings.local.php';
 # }
 $config_directories['sync'] = '../config/sync';
+$databases['default']['default'] = array (
+  'database' => 'd8_composer',
+  'username' => 'kreativbutze',
+  'password' => 'hos0702',
+  'prefix' => 'd8c_',
+  'host' => 'localhost',
+  'port' => '3306',
+  'namespace' => 'Drupal\\Core\\Database\\Driver\\mysql',
+  'driver' => 'mysql',
+);

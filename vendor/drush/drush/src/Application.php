@@ -177,7 +177,8 @@ class Application extends SymfonyApplication implements LoggerAwareInterface, Co
         if ($uri) {
             return $uri;
         }
-        return $this->bootstrapManager()->selectUri($cwd);
+        $uri = $this->bootstrapManager()->selectUri($cwd);
+        return $uri;
     }
 
     /**
@@ -208,7 +209,7 @@ class Application extends SymfonyApplication implements LoggerAwareInterface, Co
             // Is the unknown command destined for a remote site?
             if ($this->aliasManager) {
                 $selfAlias = $this->aliasManager->getSelf();
-                if ($selfAlias->isRemote()) {
+                if (!$selfAlias->isLocal()) {
                     $command = new RemoteCommandProxy($name, $this->redispatchHook);
                     $command->setApplication($this);
                     return $command;
@@ -316,6 +317,7 @@ class Application extends SymfonyApplication implements LoggerAwareInterface, Co
 
         $discovery = $this->commandDiscovery();
         $commandClasses = $discovery->discover($commandfileSearchpath, '\Drush');
+        $commandClasses[] = \Consolidation\Filter\Hooks\FilterHooks::class;
 
         $this->loadCommandClasses($commandClasses);
 
